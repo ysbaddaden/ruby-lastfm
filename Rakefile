@@ -2,17 +2,18 @@ require 'rake'
 
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |s|
+  Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
-    s.name = "ruby-lastfm"
-    s.version = "0.0.1"
-    s.summary = "Ruby library for the Last.fm API."
-    s.email = "ysbaddaden@gmail.com"
-    s.homepage = "http://github.com/ysbaddaden/ruby-lastfm"
-    s.description = "Ruby library for the Last.fm API."
-    s.authors = ['Julien Portalier']
-    s.files =  root_files + FileList["{lib}/*"]
-    s.extra_rdoc_files = root_files
+    gem.name = "ruby-lastfm"
+    gem.version = "0.0.2"
+    gem.summary = "Ruby library for the Last.fm API."
+    gem.email = "ysbaddaden@gmail.com"
+    gem.homepage = "http://github.com/ysbaddaden/ruby-lastfm"
+    gem.description = "Ruby library for the Last.fm API."
+    gem.authors = ['Julien Portalier']
+    gem.files = root_files + FileList["{lib}/*"]
+    gem.extra_rdoc_files = root_files
+    gem.add_dependency "nokogiri"
   end
 
   Jeweler::GemcutterTasks.new
