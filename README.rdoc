@@ -1,0 +1,27 @@
+= ruby-lastfm
+
+Basic Last.fm API library for Ruby.
+
+= Installation
+
+Put the following in your Gemfile:
+
+ gem :lastfm, :git => "git://github.com/ysbaddaden/ruby-lastfm.git"
+
+= Usage
+
+It currently only supports <tt>album.search</tt> and <tt>artist.search</tt>.
+Responses are instances of Nokogiri::XML::Document.
+
+ require 'lastfm'
+ LastFM::Artist.search('portishead', :limit => 5).xpath('//artist').each do |artist|
+   puts ""
+   puts "  NAME: " + artist.xpath('name').text
+   puts "  MBID: " + artist.xpath('mbid').text
+   puts " IMAGE: " + artist.xpath("image[@size='extralarge']").text
+ end
+
+= Authors
+
+- Julien Portalier <ysbaddaden@gmail.com>
+
