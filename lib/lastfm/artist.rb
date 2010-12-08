@@ -6,7 +6,7 @@
 #   
 #   <h1>
 #     <%= image_tag artist.image(:small) %>
-#     <%= artist.info.xpath('/artist/name').text %>
+#     <%= artist.name %>
 #   </h1>
 #   <%= simple_format artist.info.xpath('//summary').text %>
 # 
@@ -25,10 +25,10 @@ class LastFM
     # - +page+
     def self.search(name, params = {})
       params[:artist] = name
-      LastFM.request('artist.search', params)
+      LastFM.request('artist.search', params).xpath("//artistmatches/artist").each do |artist|
+        
+      end
     end
-
-    attr_accessor :params
 
     def initialize(options)
       self.params = {}
@@ -40,12 +40,8 @@ class LastFM
       end
     end
 
-    def info
-      @info ||= LastFM.request('artist.getInfo', params)
-    end
-
-    def image(format = :extralarge)
-      info.xpath("/artist/image[@size='" + format.to_s + "']").text
+    def tags
+      info.xpath('//tags/tag/name').collect(&:text)
     end
   end
 end

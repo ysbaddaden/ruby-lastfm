@@ -6,8 +6,8 @@
 #   
 #   <h1>
 #     <%= image_tag album.image(:small) %>
-#     <%= album.info.xpath('/album/name').text %>
-#     (<%= album.info.xpath('/album/artist').text %>)
+#     <%= album.name %>
+#     (<%= album.artist %>)
 #   </h1>
 #   <%= simple_format album.info.xpath('//summary').text %>
 # 
@@ -32,8 +32,6 @@ class LastFM
       LastFM.request('album.search', params)
     end
 
-    attr_accessor :params
-
     def initialize(options)
       self.params = {}
       
@@ -45,12 +43,17 @@ class LastFM
       end
     end
 
-    def info
-      @info ||= LastFM.request('album.getInfo', params)
+    def artist
+      text('artist')
     end
 
-    def image(format = :extralarge)
-      info.xpath("/artist/image[@size='" + format.to_s + "']").text
+    def tags
+      info.xpath('//toptags/tag/name').collect(&:text)
+    end
+
+    def releasedate
+      date = text('releasedate')
+      Date.parse(date) if date
     end
   end
 end
