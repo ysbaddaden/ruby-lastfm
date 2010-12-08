@@ -20,7 +20,7 @@ class LastFM
     end
 
     def image(format = :extralarge)
-      text("image[@size='" + format.to_s + "']")
+      text("image[size='" + format.to_s + "']")
     end
 
     protected
@@ -29,7 +29,7 @@ class LastFM
       end
 
       def node(name)
-        info.xpath("//" + class_name + "/" + name).first
+        info.css(class_name + " " + name).first || info.css(name).first
       end
 
       def text(name)

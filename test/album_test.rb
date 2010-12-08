@@ -32,11 +32,17 @@ class LastFM::AlbumTest < Test::Unit::TestCase
   end
 
   def test_search
-    albums = LastFM::Album.search("Third", :limit => 5)
-    assert_equal 5, albums.size
-    assert_instance_of LastFM::Album, albums.first
-    assert_equal "Third", albums.first.name
-    assert_equal "Portishead", albums.first.artist
+    albums = LastFM::Album.search("Third", :limit => 3)
+    assert_equal 3, albums.size
+    
+    assert_instance_of LastFM::Album, albums[0]
+    assert_equal "Third", albums[0].name
+    assert_equal "Portishead", albums[0].artist
+    assert_not_nil albums[0].image(:large)
+    
+    assert_instance_of LastFM::Album, albums[1]
+    assert_equal "Third Eye Blind", albums[1].name
+    assert_equal "Third Eye Blind", albums[1].artist
+    assert_not_nil albums[1].image(:large)
   end
 end
-

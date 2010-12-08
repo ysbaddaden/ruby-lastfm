@@ -28,7 +28,7 @@ class LastFM
     def self.search(album, params = {})
       params[:album] = album
       response = LastFM.request('album.search', params)
-      response.xpath("//albummatches/album").collect { |album| new(:info => album) }
+      response.css("albummatches album").collect { |album| new(:info => album) }
     end
 
     def initialize(options)
@@ -51,7 +51,7 @@ class LastFM
     end
 
     def tags
-      info.xpath('//toptags/tag/name').collect(&:text)
+      info.css('toptags name').collect(&:text)
     end
 
     def releasedate

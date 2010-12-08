@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'pp'
 
 class LastFM::ArtistTest < Test::Unit::TestCase
   def test_new_with_mbid
@@ -30,8 +31,13 @@ class LastFM::ArtistTest < Test::Unit::TestCase
   def test_search
     artists = LastFM::Artist.search("DAAU", :limit => 5)
     assert_equal 5, artists.size
-    assert_instance_of LastFM::Artist, artists.first
-    assert_equal "DAAU", artists.first.name
+    
+    assert_instance_of LastFM::Artist, artists[0]
+    assert_equal "DAAU", artists[0].name
+    assert_not_nil artists[0].image(:large)
+    
+    assert_instance_of LastFM::Artist, artists[1]
+    assert_equal "DAAU - Die Anarchistische Abendunterhaltung", artists[1].name
+    assert_not_nil artists[1].image(:large)
   end
 end
-
