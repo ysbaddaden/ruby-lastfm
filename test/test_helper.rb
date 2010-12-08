@@ -29,3 +29,5 @@ end
 pp LastFM::Artist.new(:mbid => '91f32a6b-fc11-45b6-a243-4dd90eaee781').info.xpath('//artist/similar//name').collect(&:text)
 pp LastFM::Album.new(:mbid => '58a5c0c1-60aa-4e56-8fd5-4ee4777c9d47').info.xpath('//album//track/name').collect(&:text)
 
+pp LastFM::Artist.new(:mbid => '123').info.xpath('//artist/similar//name').collect(&:text)
+

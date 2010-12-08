@@ -1,5 +1,5 @@
 require 'cgi'
-require 'open-uri'
+require 'net/http'
 
 require 'rubygems'
 require 'nokogiri'
@@ -34,10 +34,11 @@ class LastFM
       
       logger && logger.debug? && logger.debug('LastFM: GET ' + url)
       
-      response = open(url)
+      response = Net::HTTP.get(URI.parse(url))
       xml = Nokogiri::XML.parse(response, url)
       
-      raise_error(xml) if xml.xpath('//lfm').first[:status] == 'failed'
+      raise exception_for(xml) if xml.xpath('//lfm').first[:status] == 'failed'
+      
       xml
     end
 end

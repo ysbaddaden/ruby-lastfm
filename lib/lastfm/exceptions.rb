@@ -26,6 +26,12 @@ class LastFM
   class InvalidSessionKey < Error
   end
 
+  class InvalidAPIKey < Error
+  end
+
+  class APIKeySuspended < Error
+  end
+
   class ServiceOffline < Error
   end
 
@@ -73,38 +79,41 @@ class LastFM
 
   protected
     @@exceptions = {
-       2 => :InvalidService,
-       3 => :InvalidMethod,
-       4 => :AuthenticationFailed,
-       5 => :InvalidFormat,
-       6 => :InvalidParameters,
-       7 => :InvalidResource,
-       8 => :TokenError,
-       9 => :InvalidSessionKey,
-      10 => :InvalidAPIKey,
-      11 => :ServiceOffline,
-      12 => :SubscribersOnly,
-      13 => :InvalidMethodSignature,
-      14 => :UnauthorizedToken,
-      15 => :StreamingUnavailable,
-      16 => :ServiceUnavailable,
-      17 => :Unauthorized,
-      18 => :TrialExpired,
-      20 => :NotEnoughContent,
-      21 => :NotEnoughMembers,
-      22 => :NotEnoughFans,
-      23 => :NotEnoughNeighours,
-      24 => :NoPeakRadio,
-      25 => :RadioNotFound,
-      26 => :APIKeySuspended,
-      27 => :Deprecated
+       2 => InvalidService,
+       3 => InvalidMethod,
+       4 => AuthenticationFailed,
+       5 => InvalidFormat,
+       6 => InvalidParameters,
+       7 => InvalidResource,
+       8 => TokenError,
+       9 => InvalidSessionKey,
+      10 => InvalidAPIKey,
+      11 => ServiceOffline,
+      12 => SubscribersOnly,
+      13 => InvalidMethodSignature,
+      14 => UnauthorizedToken,
+      15 => StreamingUnavailable,
+      16 => ServiceUnavailable,
+      17 => Unauthorized,
+      18 => TrialExpired,
+      20 => NotEnoughContent,
+      21 => NotEnoughMembers,
+      22 => NotEnoughFans,
+      23 => NotEnoughNeighours,
+      24 => NoPeakRadio,
+      25 => RadioNotFound,
+      26 => APIKeySuspended,
+      27 => Deprecated
     }
 
-    def raise_error(xml)
-      code    = xml.error[:code].to_i
-      message = xml.error.to_s
+    def self.exception_for(xml)
+      code    = xml.xpath("//error").first[:code].to_i
+      message = xml.xpath("//error").text
       
-      raise @@exceptions[code].constantize.new(message) if @@exceptions[code]
-      raise Error.new(message)
+      if @@exceptions[code]
+        @@exceptions[code].new(message)
+      else
+        Error.new(message)
+      end
     end
 end
