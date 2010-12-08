@@ -25,7 +25,7 @@ begin
   Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
     gem.name = "ruby-lastfm"
-    gem.version = "0.1.0"
+    gem.version = "0.1.1"
     gem.summary = "Ruby library for the Last.fm API."
     gem.email = "ysbaddaden@gmail.com"
     gem.homepage = "http://github.com/ysbaddaden/ruby-lastfm"
