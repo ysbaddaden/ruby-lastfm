@@ -25,18 +25,21 @@ class LastFM
     # - +page+
     def self.search(name, params = {})
       params[:artist] = name
-      LastFM.request('artist.search', params).xpath("//artistmatches/artist").each do |artist|
-        
-      end
+      response = LastFM.request('artist.search', params)
+      response.xpath("//artistmatches/artist").collect { |artist| new(:info => artist) }
     end
 
     def initialize(options)
-      self.params = {}
-      
-      if options[:mbid]
-        self.params[:mbid] = options[:mbid]
+      if options[:info]
+        self.info = options[:info]
       else
-        self.params[:artist] = options[:artist]
+        self.params = {}
+        
+        if options[:mbid]
+          self.params[:mbid] = options[:mbid]
+        else
+          self.params[:artist] = options[:artist]
+        end
       end
     end
 
