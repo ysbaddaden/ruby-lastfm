@@ -11,16 +11,8 @@ Put the following in your Gemfile:
 
 = Usage example
 
-It currently only supports <tt>album.search</tt> and <tt>artist.search</tt>.
-Responses are instances of Nokogiri::XML::Document.
-
  require 'lastfm'
- LastFM::Artist.search('portishead', :limit => 5).xpath('//artist').each do |artist|
-   puts ""
-   puts "  NAME: " + artist.xpath('name').text
-   puts "  MBID: " + artist.xpath('mbid').text
-   puts " IMAGE: " + artist.xpath("image[@size='extralarge']").text
- end
+ artist_names = LastFM::Artist.search('portishead', :limit => 5).collect(&:name)
 
 = Authors
 
